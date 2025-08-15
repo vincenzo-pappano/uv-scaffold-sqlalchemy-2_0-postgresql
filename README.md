@@ -1,6 +1,7 @@
 ```
 git config --global user.email "vincenzo.pappano@gmail.com"
 git config --global user.name "Vincenzo Pappano"
+git clone git@github.com:vincenzo-pappano/uv-scaffold-postgresql.git
 ```
 
 ```
