@@ -1,3 +1,15 @@
+```
+git config --global user.email "vincenzo.pappano@gmail.com"
+git config --global user.name "Vincenzo Pappano"
+mkdir $HOME/database
+```
+```
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+```
+source ~/.bashrc
+```
+
 # uv-scaffold-postgresql
 
 ```
