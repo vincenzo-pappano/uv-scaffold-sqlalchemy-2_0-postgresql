@@ -1,0 +1,39 @@
+maintainer: developer
+
+api:
+    endpoint: https://api.example.com
+    key: your_api_key
+
+database:
+    hostname: 10.98.98.115
+    port: 3306
+    user: root
+    password: password
+
+language: en
+
+ssh_targets:
+    mainboard:
+        hostname: 192.168.0.254
+        username: root
+        password: 
+        port: 22
+        timeout: 5
+    m2iev:
+        hostname: 192.168.1.3
+        username: root
+        password: root
+        port: 22
+        timeout: 10
+
+# serial_ports:
+#     mainboard:
+#         port: /dev/ttyAMA0
+#         baudrate: 115200
+#         timeout: 0.1
+#         terminator: "\n"
+#     numato:
+#         port: /dev/ttyNumato
+#         baudrate: 115200
+#         timeout: 0.1
+#         terminator: "\r"

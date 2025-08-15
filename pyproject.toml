@@ -1,0 +1,65 @@
+[project]
+name = "fms-client"
+version = "0.1.0"
+description = "Sample fms_client package (src layout) built with uv"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Your Name" }]
+dependencies = [
+    "diceware>=1.0.1",
+    "pytest>=8.4.1",
+    "SQLAlchemy>=2.0.43",
+    "psycopg2-binary>=2.9.9"
+]
+license = { text = "MIT" }
+keywords = ["fms", "sample", "cli"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://example.com/fms-client"
+Repository = "https://example.com/fms-client.git"
+Issues = "https://example.com/fms-client/issues"
+
+[project.scripts]
+fms-client = "fms_client.__main__:main"
+fms-shell = "fms_client.database_shell:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["src/fms_client/**", "README.md", "LICENSE*"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fms_client"]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "pytest-cov>=5.0",
+  "ruff>=0.5.0",
+  "mypy>=1.10.0",
+  "cmd2==2.7.0",
+  "greenlet==3.2.4",
+  "markdown-it-py==4.0.0",
+  "mdurl==0.1.2",
+  "Pygments==2.19.2",
+  "pyperclip==1.9.0",
+  "pyserial==3.5",
+  "PyYAML==6.0.2",
+  "rich==14.1.0",
+  "rich-argparse==1.7.1",
+  "typing_extensions==4.14.1",
+  "wcwidth==0.2.13"
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]

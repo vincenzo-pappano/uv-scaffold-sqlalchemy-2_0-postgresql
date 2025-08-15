@@ -1,0 +1,29 @@
+# Example settings.yaml content:
+logger:
+  version: 1
+  formatters:
+    # colored_formatter:
+    #     format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    #     datefmt: "%Y-%m-%d %H:%M:%S"
+    #     class: python_logging_colorama.ColoredFormatter
+    console_formatter:
+      # format: "%(levelname)-6s - %(filename)-20s - %(message)s"
+      format: "%(levelname)-6s - %(message)s"
+    file_formatter:
+      format: "%(filename)s [%(lineno)d] %(levelname)s - %(message)s"
+      # format: "%(asctime)s - %(filename)s - %(lineno)d - %(levelname)s - %(message)s"
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: DEBUG
+      formatter: console_formatter
+      stream: ext://sys.stdout
+    file:
+      class: logging.FileHandler
+      level: DEBUG
+      formatter: file_formatter
+      filename: "/home/pi/uv-scaffold-postgresql/src/fms_client/device_logs/session.log"
+  root:
+    level: DEBUG
+    handlers: [file]
+    #handlers: [console, file]
