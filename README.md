@@ -57,7 +57,8 @@ sudo systemctl status postgresql
 psql -h localhost -U fms_user -d mfr_database -W
 ```
 
-```CREATE TABLE mfr.perm_check (id serial primary key);
+```
+CREATE TABLE mfr.perm_check (id serial primary key);
 DROP TABLE mfr.perm_check;
 \q
 ```
