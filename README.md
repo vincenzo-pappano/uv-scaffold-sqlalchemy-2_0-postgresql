@@ -20,7 +20,7 @@ source ~/.bashrc
 
 ```
 sudo apt update
-sudo apt install postgresql postgresql-client
+sudo apt install postgresql postgresql-client -y
 ```
 
 
