@@ -1,1 +1,1 @@
-# uv-scaffold-postgresql-sqlalchemy-alembic
+# uv-scaffold-postgresql
