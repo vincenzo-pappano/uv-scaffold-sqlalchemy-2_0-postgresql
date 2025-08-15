@@ -18,7 +18,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source ~/.bashrc
 ```
 
-# uv-scaffold-postgresql
+# Install postgresql
 
 ```
 sudo apt update
@@ -28,6 +28,8 @@ sudo apt update
 sudo apt install postgresql postgresql-client
 ```
 
+
+# Configure postgresql
 
 ```
 sudo -u postgres psql
