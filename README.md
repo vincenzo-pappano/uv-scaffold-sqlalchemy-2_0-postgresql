@@ -1,8 +1,5 @@
 ```
 git config --global user.email "vincenzo.pappano@gmail.com"
-```
-
-```
 git config --global user.name "Vincenzo Pappano"
 ```
 
@@ -22,9 +19,6 @@ source ~/.bashrc
 
 ```
 sudo apt update
-```
-
-```
 sudo apt install postgresql postgresql-client
 ```
 
@@ -57,10 +51,11 @@ sudo systemctl enable postgresql
 sudo systemctl status postgresql
 ```
 
+# Test postgresql
 '''
 psql -h localhost -U fms_user -d mfr_database -W
 ```
 ```CREATE TABLE mfr.perm_check (id serial primary key);
 DROP TABLE mfr.perm_check;
 \q
-'''
+```
