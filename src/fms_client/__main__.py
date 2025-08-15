@@ -36,7 +36,7 @@ def main() -> None:
         print(s)
 
     # 3) Request an available record by assigning a barcode
-    barcode = "000000771013"
+    barcode = "000000221013"
     ok, requested_id = mfr_database.request_available_record(barcode)
     if not ok or requested_id is None:
         logger.error("Failed to request an available record for barcode %s.", barcode)

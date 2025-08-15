@@ -1,14 +1,20 @@
 # src/fms_client/data/mfr_database.py
 from __future__ import annotations
 
+from fms_client.utils.logger import logger_base
+
 from typing import Dict, Optional, Tuple, List
 
 from sqlalchemy import create_engine, select, func
 from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy import select, and_, or_
 
 from .mfr_record import MfrRecord  # model
 # If you centralize Base in db.py, import it there; otherwise MfrRecord.metadata works too.
 from .mfr_record import Base  # adjust to `.db import Base` if that's your project pattern
+
+
+logger = logger_base.get_logger(__name__)
 
 # --- PostgreSQL connection ---
 # Assumes you completed:
@@ -28,6 +34,7 @@ class MfrDatabase:
             future=True,
         )
         self.SessionLocal = sessionmaker(bind=self.engine, autoflush=False, expire_on_commit=False, future=True)
+        logger.debug('Created session')
 
         # Create tables if they don't exist (fine for dev/test)
         Base.metadata.create_all(self.engine)
@@ -57,7 +64,7 @@ class MfrDatabase:
                 return True, rec_id
         except Exception as e:
             # log if you have a logger; return safe default
-            # logger.exception("create_mfr_record failed: %s", e)
+            logger.error("create_mfr_record failed: %s", e)
             return False, None
 
     # ---- lookups ----
@@ -84,32 +91,47 @@ class MfrDatabase:
             return False, None
 
     # ---- lifecycle: request / allocate ----
-    def request_available_record(self, barcode: str) -> Tuple[bool, Optional[int]]:
-        """
-        Find the first record with requested='false' and allocated='false',
-        set requested='true' and assign the barcode.
-        """
+    def request_available_record(self, barcode: str) -> tuple[bool, int | None]:
         try:
+            # check if barcode is already in database, if yes return ok and record id
             with self.create_session() as session:
                 rec = session.execute(
-                    select(MfrRecord).where(
-                        MfrRecord.requested == "false",
-                        MfrRecord.allocated == "false",
-                    ).order_by(MfrRecord.id.asc())
+                    select(MfrRecord)
+                    .where(
+                        MfrRecord.barcode == barcode
+                    )
+                    .order_by(MfrRecord.id.asc())
                 ).scalar_one_or_none()
-
+                if rec:
+                    logger.info("Record {rec.id} already associated with barcode {barcode}")
+                    return True, rec.id
+                else:
+                    logger.info("Attempting to find a record to associate with barcode {barcode}")
+                    
+            # check if there is an available record to associate with the barcode            
+            with self.create_session() as session:
+                rec = session.execute(
+                    select(MfrRecord)
+                    .where(
+                        MfrRecord.barcode.is_(None),  # only unassigned
+                        or_(MfrRecord.requested == "false", MfrRecord.requested.is_(None)),
+                        or_(MfrRecord.allocated == "false", MfrRecord.allocated.is_(None)),
+                    )
+                    .order_by(MfrRecord.id.asc())
+                ).scalars().first()
                 if not rec:
+                    logger.error('Could not find available record to associate with barcode {barcode}')
                     return False, None
-
                 rec.barcode = barcode
-                # set requested flag/timestamp
                 if hasattr(rec, "set_requested"):
                     rec.set_requested("true")
                 else:
                     rec.requested = "true"
                 session.commit()
                 return True, rec.id
-        except Exception:
+
+        except Exception as e:
+            logger.error(f"Exception {e}")
             return False, None
 
     def allocate_requested_record(self, barcode: str) -> Tuple[bool, Optional[int]]:
@@ -190,7 +212,7 @@ class MfrDatabase:
     # ---- dump/list helpers ----
     def get_mfr_records(self) -> List[MfrRecord]:
         with self.create_session() as session:
-            return list(session.execute(select(MfrRecord)).scalars().all())
+            return list(session.execute(select(MfrRecord).order_by(MfrRecord.id.asc())).scalars().all())
 
     # ---- selective retrieval / update ----
     def retrieve_data_by_barcode(self, barcode: str, columns: List[str]) -> Tuple[bool, Optional[Dict[str, str]]]:

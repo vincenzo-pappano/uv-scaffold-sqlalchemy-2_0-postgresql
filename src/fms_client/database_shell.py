@@ -278,7 +278,7 @@ class MfrShell(cmd2.Cmd):
             for rec_id, barcode in inconsistent:
                 self.poutput(f"    * id={rec_id}, barcode={barcode or '<unassigned>'}")
         else:
-            self.ok("No inconsistencies: all allocated records are also requested.")
+            self.ok("No inconsistencies: all allocated records have also been requested.")
 
         # Totals
         self.info(f"Requested records: {requested_count}")
@@ -393,7 +393,7 @@ class MfrShell(cmd2.Cmd):
     )
     list_parser.add_argument(
         "--columns", nargs="+",
-        default=["barcode", "requested", "allocated"],
+        default=["id", "barcode", "requested", "allocated", "root_password"],
         help="Columns to display (model attributes).",
     )
 
