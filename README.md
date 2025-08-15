@@ -22,18 +22,20 @@ sudo apt install postgresql postgresql-client
 ```
 sudo -u postgres psql
 ```
-## Inside psql:
+## Inside psql: (prompt: **postgres=#**)
 ```
-postgres=# CREATE DATABASE mfr_database;
-postgres=# CREATE USER fms_user WITH PASSWORD 'secure_password';
-postgres=# GRANT ALL PRIVILEGES ON DATABASE mfr_database TO fms_user;
-postgres=# CREATE SCHEMA mfr AUTHORIZATION fms_user;
-postgres=# ALTER ROLE fms_user SET search_path TO mfr, public;
-```
-## Exit psql
-```
+CREATE DATABASE mfr_database;
+CREATE USER fms_user WITH PASSWORD 'secure_password';
+GRANT ALL PRIVILEGES ON DATABASE mfr_database TO fms_user;
+CREATE SCHEMA mfr AUTHORIZATION fms_user;
+ALTER ROLE fms_user SET search_path TO mfr, public;
 \q
 ```
+
+```
+sudo systemctl start postgresql
+```
+
 
 ```
 psql -h localhost -U fms_user -d mfr_database -W
