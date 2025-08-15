@@ -39,10 +39,13 @@ sudo systemctl start postgresql
 
 ```
 psql -h localhost -U fms_user -d mfr_database -W
+```
 
-mfr_database=> CREATE TABLE perm_check (id serial primary key);
-mfr_database=> DROP TABLE perm_check;
-mfr_database=> quit
+## Prompt **mfr_database=> **
+```
+CREATE TABLE perm_check (id serial primary key);
+DROP TABLE perm_check;
+quit
 ```
 
 ## Start postgresql server
