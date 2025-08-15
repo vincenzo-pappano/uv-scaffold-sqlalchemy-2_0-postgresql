@@ -29,48 +29,23 @@ sudo apt install postgresql postgresql-client
 ```
 
 
-## Switch to the postgres superuser
 ```
 sudo -u postgres psql
 ```
-## Inside psql: (prompt: **postgres=#**)
 ```
 CREATE DATABASE mfr_database;
-```
-```
 CREATE USER fms_user WITH PASSWORD 'secure_password';
-```
-```
 GRANT ALL PRIVILEGES ON DATABASE mfr_database TO fms_user;
-```
-```
-CREATE SCHEMA mfr AUTHORIZATION fms_user;
-```
-```
-ALTER ROLE fms_user SET search_path TO mfr, public;
-```
-```
 \q
 ```
 
 ```
-sudo systemctl start postgresql
-```
-
-
-```
-psql -h localhost -U fms_user -d mfr_database -W
-```
-
-## Prompt **mfr_database=> **
-```
-CREATE TABLE perm_check (id serial primary key);
+sudo -u postgres psql -d mfr_database
 ```
 ```
-DROP TABLE perm_check;
-```
-```
-quit
+CREATE SCHEMA mfr AUTHORIZATION fms_user;
+ALTER ROLE fms_user SET search_path TO mfr, public;
+\q
 ```
 
 ## Start postgresql server
@@ -79,3 +54,11 @@ sudo systemctl start postgresql
 sudo systemctl enable postgresql
 sudo systemctl status postgresql
 ```
+
+'''
+psql -h localhost -U fms_user -d mfr_database -W
+```
+```CREATE TABLE mfr.perm_check (id serial primary key);
+DROP TABLE mfr.perm_check;
+\q
+'''
