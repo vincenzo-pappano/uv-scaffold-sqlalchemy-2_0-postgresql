@@ -1,8 +1,11 @@
 ```
 git config --global user.email "vincenzo.pappano@gmail.com"
 ```
+
 ```
 git config --global user.name "Vincenzo Pappano"
+```
+
 ```
 mkdir $HOME/database
 ```
@@ -20,6 +23,7 @@ source ~/.bashrc
 ```
 sudo apt update
 ```
+
 ```
 sudo apt install postgresql postgresql-client
 ```
