@@ -1,7 +1,6 @@
 # src/fms_client/data/mfr_database.py
 from __future__ import annotations
 
-from fms_client.utils.logger import logger_base
 
 from typing import Dict, Optional, Tuple, List
 
@@ -14,6 +13,7 @@ from .mfr_record import MfrRecord  # model
 from .mfr_record import Base  # adjust to `.db import Base` if that's your project pattern
 
 
+from fms_client.utils.logger import logger_base
 logger = logger_base.get_logger(__name__)
 
 # --- PostgreSQL connection ---
@@ -103,10 +103,10 @@ class MfrDatabase:
                     .order_by(MfrRecord.id.asc())
                 ).scalar_one_or_none()
                 if rec:
-                    logger.info("Record {rec.id} already associated with barcode {barcode}")
+                    logger.info(f"Record {rec.id} already associated with barcode {barcode}")
                     return True, rec.id
                 else:
-                    logger.info("Attempting to find a record to associate with barcode {barcode}")
+                    logger.info(f"Attempting to find a record to associate with barcode {barcode}")
                     
             # check if there is an available record to associate with the barcode            
             with self.create_session() as session:

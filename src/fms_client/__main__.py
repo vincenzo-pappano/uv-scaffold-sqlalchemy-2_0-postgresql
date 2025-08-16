@@ -1,7 +1,6 @@
 # app/main.py
 from __future__ import annotations
 
-import logging
 import time
 from typing import Dict, Optional, Tuple
 
@@ -10,8 +9,8 @@ from fms_client.device.params import device_params_instance as device_params  # 
 from fms_client.data.passwords import passwords_instance as passwords        # implied
 
 
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-logger = logging.getLogger(__name__)
+from fms_client.utils.logger import logger_base
+logger = logger_base.get_logger(__name__)
 
 
 def main() -> None:
